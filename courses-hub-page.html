@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Skills Refreshers — Square Up</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#00843D; --forest:#0F3D26; --amber:#F5A623; --stone:#F6F5F1; --ink:#1B1F1D; --steel:#6B7570; --white:#FFFFFF;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--stone);color:var(--ink);}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;line-height:1.1;}
+.container{max-width:1080px;margin:0 auto;padding:0 24px;}
+a{color:inherit;text-decoration:none;}
+
+nav{background:var(--forest);padding:16px 0;}
+nav .container{display:flex;justify-content:space-between;align-items:center;}
+.logo{font-family:'Space Grotesk';font-weight:700;color:var(--white);font-size:19px;}
+.logo span{color:var(--amber);}
+.crumbs{font-size:13px;color:#CFE3D6;}
+
+/* HERO */
+.hub-hero{background:var(--white);border-bottom:1px solid #E3E0D6;padding:48px 0 32px;}
+h1.hub-title{font-size:clamp(30px,4.5vw,44px);max-width:620px;}
+.hub-sub{color:var(--steel);font-size:16px;max-width:560px;margin-top:14px;}
+
+.banner{
+  display:flex;gap:12px;align-items:flex-start;background:#FBF7EC;border:1px solid #EADFB8;
+  padding:14px 18px;margin-top:24px;border-radius:6px;max-width:640px;
+}
+.banner-icon{flex-shrink:0;width:26px;height:26px;background:var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--forest);font-size:13px;}
+.banner p{font-size:13px;color:#7A6A3A;line-height:1.5;}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px;}
+.filter-chip{
+  background:var(--white);border:1px solid #DDD9CC;padding:8px 16px;font-size:13.5px;font-weight:500;
+  border-radius:20px;cursor:pointer;color:var(--steel);transition:all 0.15s;
+}
+.filter-chip:hover{border-color:var(--green);color:var(--green);}
+.filter-chip.active{background:var(--green);color:var(--white);border-color:var(--green);}
+
+/* COURSE GRID */
+.hub-body{padding:40px 0 80px;}
+.course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px;}
+.course-card{
+  background:var(--white);border:1px solid #E3E0D6;border-radius:10px;padding:22px;cursor:pointer;
+  transition:transform 0.15s, box-shadow 0.15s;display:flex;flex-direction:column;
+}
+.course-card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(15,61,38,0.08);}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.trade-pill{background:var(--stone);color:var(--forest);font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:4px;}
+.free-pill{background:var(--green);color:var(--white);font-size:11px;font-weight:600;padding:5px 10px;border-radius:4px;}
+.course-card h3{font-size:17px;margin-bottom:8px;}
+.course-card p{font-size:13.5px;color:var(--steel);flex:1;margin-bottom:14px;line-height:1.5;}
+.card-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--steel);border-top:1px solid #EEEBE1;padding-top:12px;}
+.card-meta b{color:var(--ink);}
+.badge-mini{display:flex;align-items:center;gap:4px;font-size:11px;color:#B08A2E;font-weight:600;}
+.badge-mini::before{content:'●';color:var(--amber);font-size:8px;}
+
+.coming-soon{
+  background:transparent;border:2px dashed #DDD9CC;border-radius:10px;padding:22px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--steel);
+}
+.coming-soon h3{font-size:15px;color:var(--steel);margin-bottom:6px;}
+.coming-soon p{font-size:12.5px;}
+
+@media(max-width:860px){.course-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.course-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav><div class="container">
+  <div class="logo">SQUARE<span>UP</span></div>
+  <div class="crumbs"><a href="#">Home</a> / Courses</div>
+</div></nav>
+
+<header class="hub-hero"><div class="container">
+  <h1 class="hub-title">Free skills refreshers for tradies</h1>
+  <p class="hub-sub">Quick, practical calculation refreshers built for the job — not red tape. Complete one to add a Skills Refresher badge to your profile.</p>
+
+  <div class="banner">
+    <div class="banner-icon">i</div>
+    <p><b style="display:block;color:#5A4A1E;">Not accredited CPD.</b>These are free skills refreshers only — they don't count toward licence renewal or CPD requirements. Always refer to current AS/NZS standards and your state regulator.</p>
+  </div>
+
+  <div class="filter-bar" id="filterBar">
+    <div class="filter-chip active" data-f="all">All trades</div>
+    <div class="filter-chip" data-f="Plumbing">Plumbing</div>
+    <div class="filter-chip" data-f="Electrical">Electrical</div>
+    <div class="filter-chip" data-f="Carpentry">Carpentry</div>
+    <div class="filter-chip" data-f="Outdoor">Outdoor &amp; Roofing</div>
+    <div class="filter-chip" data-f="Finishing">Finishing &amp; Fit-out</div>
+    <div class="filter-chip" data-f="Other">Other</div>
+  </div>
+</div></header>
+
+<main class="container hub-body">
+  <div class="course-grid" id="courseGrid">
+
+    <div class="course-card" data-trade="Electrical">
+      <div class="card-top"><span class="trade-pill">Electrical</span><span class="free-pill">Free</span></div>
+      <h3>Voltage Drop &amp; Cable Sizing Refresher</h3>
+      <p>The mV/A/m calculation method, the 5% rule, and a worked example sizing cable for a 32A circuit.</p>
+      <div class="card-meta"><span><b>20 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
+    </div>
+
+    <div class="course-card" data-trade="Plumbing">
+      <div class="card-top"><span class="trade-pill">Plumbing</span><span class="free-pill">Free</span></div>
+      <h3>Pipe Sizing &amp; Water Pressure Basics</h3>
+      <p>Calculating pipe diameter from flow rate and fixture units, plus pressure loss over length and elevation.</p>
+      <div class="card-meta"><span><b>20 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
+    </div>
+
+    <div class="course-card" data-trade="Electrical">
+      <div class="card-top"><span class="trade-pill">Electrical</span><span class="free-pill">Free</span></div>
+      <h3>Load Calculations &amp; Circuit Basics</h3>
+      <p>Total connected load for a switchboard and cable sizing based on current draw and run length.</p>
+      <div class="card-meta"><span><b>20 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
+    </div>
+
+    <div class="course-card" data-trade="Carpentry">
+      <div class="card-top"><span class="trade-pill">Carpentry</span><span class="free-pill">Free</span></div>
+      <h3>Timber Sizing &amp; Span Tables</h3>
+      <p>Reading span tables for joists and bearers, and sizing bearers for a standard deck frame.</p>
+      <div class="card-meta"><span><b>20 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
+    </div>
+
+    <div class="course-card" data-trade="Finishing">
+      <div class="card-top"><span class="trade-pill">Painting</span><span class="free-pill">Free</span></div>
+      <h3>Coverage &amp; Quantity Estimating</h3>
+      <p>Calculating litres needed from surface area and coverage rate, adjusted for texture and coats.</p>
+      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
+    </div>
+
+    <div class="course-card" data-trade="Finishing">
+      <div class="card-top"><span class="trade-pill">Tiling</span><span class="free-pill">Free</span></div>
+      <h3>Tile Quantity &amp; Layout Calculations</h3>
+      <p>Calculating tile quantity from area including wastage %, plus adhesive and grout estimating.</p>
+      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
+    </div>
+
+    <div class="course-card" data-trade="Outdoor">
+      <div class="card-top"><span class="trade-pill">Roofing</span><span class="free-pill">Free</span></div>
+      <h3>Roof Area &amp; Material Calculations</h3>
+      <p>Calculating roof area from pitch and footprint, and estimating sheet/tile quantities and fixings.</p>
+      <div class="card-meta"><span><b>20 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
+    </div>
+
+    <div class="course-card" data-trade="Outdoor">
+      <div class="card-top"><span class="trade-pill">Landscaping</span><span class="free-pill">Free</span></div>
+      <h3>Materials &amp; Quantity Calculations</h3>
+      <p>Calculating soil/mulch volume and turf/paving quantities with a wastage allowance.</p>
+      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
+    </div>
+
+    <div class="course-card" data-trade="Outdoor">
+      <div class="card-top"><span class="trade-pill">Fencing</span><span class="free-pill">Free</span></div>
+      <h3>Materials &amp; Post Spacing Calculations</h3>
+      <p>Calculating post spacing and quantity for a fence run, with panel and concrete estimating.</p>
+      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
+    </div>
+
+    <div class="course-card" data-trade="Other">
+      <div class="card-top"><span class="trade-pill">Handyman</span><span class="free-pill">Free</span></div>
+      <h3>Quoting Multi-Task Jobs</h3>
+      <p>Breaking a job list into time-per-task estimates and materials estimating for common small jobs.</p>
+      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
+    </div>
+
+    <div class="course-card" data-trade="Other">
+      <div class="card-top"><span class="trade-pill">Cleaning</span><span class="free-pill">Free</span></div>
+      <h3>Job Scoping &amp; Time Estimating</h3>
+      <p>Estimating time and cost by property size and job type, plus safe chemical dilution ratios.</p>
+      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
+    </div>
+
+    <div class="course-card" data-trade="Other">
+      <div class="card-top"><span class="trade-pill">Removalists</span><span class="free-pill">Free</span></div>
+      <h3>Volume &amp; Crew Time Estimating</h3>
+      <p>Estimating truck volume needed from home size/inventory and calculating crew hours.</p>
+      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
+    </div>
+
+    <div class="coming-soon">
+      <h3>30 more trades coming soon</h3>
+      <p>Gas, concreting, plastering, pest control &amp; more — same free, practical format.</p>
+    </div>
+
+  </div>
+</main>
+
+<script>
+document.querySelectorAll('.filter-chip').forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    const f = chip.getAttribute('data-f');
+    document.querySelectorAll('.course-card').forEach(card=>{
+      const match = (f==='all' || card.getAttribute('data-trade')===f);
+      card.style.display = match ? 'flex' : 'none';
+    });
+  });
+});
+</script>
+</body>
+</html>
