@@ -1,209 +1,685 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Skills Refreshers — Square Up</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Refreshers — Square Up</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --green:#00843D; --forest:#0F3D26; --amber:#F5A623; --stone:#F6F5F1; --ink:#1B1F1D; --steel:#6B7570; --white:#FFFFFF;
+  --green:#00843D; --forest:#0F3D26; --amber:#F5A623; --bg:#F6F5F1; --surface:#FFFFFF;
+  --ink:#1B1F1D; --steel:#6B7570; --line:#E3E0D6; --soft:#FAFAF7; --warn-bg:#FBF7EC;
+  --warn-line:#EADFB8; --warn-ink:#7A6A3A; --warn-strong:#5A4A1E; --wrong:#8C3323;
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12160F; --surface:#1A1F18; --ink:#F0EFE8; --steel:#9AA396; --line:#2C332A;
+    --soft:#202619; --warn-bg:#2A2416; --warn-line:#4A4028; --warn-ink:#D6C48E; --warn-strong:#EFDFAE;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12160F; --surface:#1A1F18; --ink:#F0EFE8; --steel:#9AA396; --line:#2C332A;
+  --soft:#202619; --warn-bg:#2A2416; --warn-line:#4A4028; --warn-ink:#D6C48E; --warn-strong:#EFDFAE;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter',sans-serif;background:var(--stone);color:var(--ink);}
-h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:700;line-height:1.1;}
-.container{max-width:1080px;margin:0 auto;padding:0 24px;}
-a{color:inherit;text-decoration:none;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;}
+h1,h2,h3,h4{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;line-height:1.12;}
+.container{max-width:1060px;margin:0 auto;padding:0 20px;}
+button{font-family:inherit;cursor:pointer;}
+img{max-width:100%;}
 
-nav{background:var(--forest);padding:16px 0;}
-nav .container{display:flex;justify-content:space-between;align-items:center;}
-.logo{font-family:'Space Grotesk';font-weight:700;color:var(--white);font-size:19px;}
+/* NAV */
+nav{background:var(--forest);padding:14px 0;position:sticky;top:0;z-index:20;}
+nav .container{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.logo{font-family:'Space Grotesk';font-weight:700;color:#fff;font-size:18px;cursor:pointer;}
 .logo span{color:var(--amber);}
-.crumbs{font-size:13px;color:#CFE3D6;}
+.nav-right{display:flex;align-items:center;gap:14px;}
+.nav-back{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;font-size:12.5px;padding:6px 13px;border-radius:5px;}
+.nav-back:hover{border-color:var(--amber);}
+.nav-badgecount{font-size:12px;color:#CFE3D6;white-space:nowrap;}
 
-/* HERO */
-.hub-hero{background:var(--white);border-bottom:1px solid #E3E0D6;padding:48px 0 32px;}
-h1.hub-title{font-size:clamp(30px,4.5vw,44px);max-width:620px;}
-.hub-sub{color:var(--steel);font-size:16px;max-width:560px;margin-top:14px;}
+/* SHARED */
+.pill{font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:4px;display:inline-block;}
+.pill-trade{background:var(--soft);color:var(--ink);border:1px solid var(--line);}
+.pill-free{background:var(--green);color:#fff;}
+.pill-done{background:var(--amber);color:#3A2E0A;}
+.notice{display:flex;gap:11px;align-items:flex-start;background:var(--warn-bg);border:1px solid var(--warn-line);padding:13px 16px;border-radius:7px;}
+.notice-ic{flex-shrink:0;width:25px;height:25px;background:var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#3A2E0A;font-size:13px;}
+.notice p{font-size:12.6px;color:var(--warn-ink);}
+.notice b{display:block;color:var(--warn-strong);font-size:13.2px;margin-bottom:1px;}
+.btn{border:none;padding:12px 22px;font-weight:600;font-size:14px;border-radius:6px;}
+.btn-primary{background:var(--green);color:#fff;}
+.btn-primary:hover{background:#006E33;}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line);}
+.btn-amber{background:var(--amber);color:#3A2E0A;}
 
-.banner{
-  display:flex;gap:12px;align-items:flex-start;background:#FBF7EC;border:1px solid #EADFB8;
-  padding:14px 18px;margin-top:24px;border-radius:6px;max-width:640px;
-}
-.banner-icon{flex-shrink:0;width:26px;height:26px;background:var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--forest);font-size:13px;}
-.banner p{font-size:13px;color:#7A6A3A;line-height:1.5;}
-
-/* FILTER BAR */
-.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px;}
-.filter-chip{
-  background:var(--white);border:1px solid #DDD9CC;padding:8px 16px;font-size:13.5px;font-weight:500;
-  border-radius:20px;cursor:pointer;color:var(--steel);transition:all 0.15s;
-}
-.filter-chip:hover{border-color:var(--green);color:var(--green);}
-.filter-chip.active{background:var(--green);color:var(--white);border-color:var(--green);}
-
-/* COURSE GRID */
-.hub-body{padding:40px 0 80px;}
-.course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px;}
-.course-card{
-  background:var(--white);border:1px solid #E3E0D6;border-radius:10px;padding:22px;cursor:pointer;
-  transition:transform 0.15s, box-shadow 0.15s;display:flex;flex-direction:column;
-}
-.course-card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(15,61,38,0.08);}
-.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
-.trade-pill{background:var(--stone);color:var(--forest);font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:4px;}
-.free-pill{background:var(--green);color:var(--white);font-size:11px;font-weight:600;padding:5px 10px;border-radius:4px;}
-.course-card h3{font-size:17px;margin-bottom:8px;}
-.course-card p{font-size:13.5px;color:var(--steel);flex:1;margin-bottom:14px;line-height:1.5;}
-.card-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--steel);border-top:1px solid #EEEBE1;padding-top:12px;}
+/* HUB */
+.hero{background:var(--surface);border-bottom:1px solid var(--line);padding:42px 0 28px;}
+.hero h1{font-size:clamp(27px,4.4vw,40px);max-width:600px;}
+.hero .sub{color:var(--steel);font-size:15.5px;max-width:560px;margin-top:12px;}
+.hero .notice{margin-top:20px;max-width:650px;}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-top:24px;}
+.chip{background:var(--surface);border:1px solid var(--line);padding:7px 15px;font-size:13px;font-weight:500;border-radius:20px;color:var(--steel);}
+.chip:hover{border-color:var(--green);color:var(--green);}
+.chip[aria-pressed="true"]{background:var(--green);color:#fff;border-color:var(--green);}
+.hub-body{padding:32px 0 70px;}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;text-align:left;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;width:100%;color:inherit;}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(15,61,38,.09);}
+.card-top{display:flex;justify-content:space-between;gap:8px;margin-bottom:12px;}
+.card h3{font-size:16.5px;margin-bottom:7px;}
+.card p{font-size:13.2px;color:var(--steel);flex:1;margin-bottom:13px;}
+.card-meta{display:flex;justify-content:space-between;align-items:center;font-size:11.8px;color:var(--steel);border-top:1px solid var(--line);padding-top:11px;gap:8px;}
 .card-meta b{color:var(--ink);}
-.badge-mini{display:flex;align-items:center;gap:4px;font-size:11px;color:#B08A2E;font-weight:600;}
-.badge-mini::before{content:'●';color:var(--amber);font-size:8px;}
+.mini{display:flex;align-items:center;gap:4px;font-size:11px;color:#B08A2E;font-weight:600;}
+.mini::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--amber);}
+.soon{border:2px dashed var(--line);border-radius:10px;padding:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--steel);}
+.soon h3{font-size:14.5px;color:var(--steel);margin-bottom:5px;}
+.soon p{font-size:12.4px;}
 
-.coming-soon{
-  background:transparent;border:2px dashed #DDD9CC;border-radius:10px;padding:22px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--steel);
-}
-.coming-soon h3{font-size:15px;color:var(--steel);margin-bottom:6px;}
-.coming-soon p{font-size:12.5px;}
+/* COURSE */
+.c-hero{background:var(--surface);border-bottom:1px solid var(--line);padding:34px 0 28px;}
+.c-hero h1{font-size:clamp(24px,3.6vw,34px);max-width:600px;margin-top:11px;}
+.c-meta{display:flex;gap:18px;margin-top:13px;color:var(--steel);font-size:13.5px;flex-wrap:wrap;}
+.c-meta b{color:var(--ink);}
+.c-body{display:grid;grid-template-columns:1fr 250px;gap:34px;padding:32px 0 70px;align-items:start;}
+.lesson{background:var(--surface);border:1px solid var(--line);border-radius:9px;margin-bottom:13px;overflow:hidden;}
+.lesson-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;width:100%;background:none;border:none;text-align:left;color:inherit;gap:10px;}
+.lesson-head:hover{background:var(--soft);}
+.lesson-n{font-family:'Space Grotesk';color:var(--green);font-size:12.5px;font-weight:700;margin-bottom:2px;}
+.lesson-t{font-size:15.8px;font-weight:600;}
+.chev{color:var(--steel);transition:transform .2s;font-size:13px;flex-shrink:0;}
+.lesson[data-open="true"] .chev{transform:rotate(180deg);}
+.lesson-body{display:none;padding:0 20px 20px;font-size:14.2px;color:var(--ink);}
+.lesson[data-open="true"] .lesson-body{display:block;}
+.lesson-body p+p{margin-top:9px;}
+.eg{background:var(--soft);border-left:3px solid var(--green);padding:13px 15px;margin-top:11px;font-size:13.4px;border-radius:0 5px 5px 0;}
+.eg b{font-weight:600;}
+code{background:var(--soft);border:1px solid var(--line);padding:1px 5px;border-radius:3px;font-size:12.8px;}
+.side{position:sticky;top:76px;display:flex;flex-direction:column;gap:13px;}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:17px;}
+.panel h4{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--steel);margin-bottom:9px;}
+.bar{height:7px;background:var(--line);border-radius:4px;overflow:hidden;}
+.bar-fill{height:100%;background:var(--green);width:0;transition:width .4s ease;}
+.bar-txt{font-size:12.2px;color:var(--steel);margin-top:7px;}
 
-@media(max-width:860px){.course-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:560px){.course-grid{grid-template-columns:1fr;}}
+/* QUIZ */
+.quiz{background:var(--forest);color:#fff;border-radius:10px;padding:22px;}
+.quiz h3{font-size:18px;margin-bottom:4px;}
+.quiz .lead{font-size:12.8px;color:#CFE3D6;margin-bottom:15px;}
+.qcount{font-size:11.5px;color:var(--amber);font-weight:600;letter-spacing:.03em;margin-bottom:7px;}
+.qtext{font-size:14px;font-weight:600;margin-bottom:11px;}
+.opt{display:block;width:100%;text-align:left;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);color:#fff;padding:10px 13px;font-size:13.2px;margin-bottom:7px;border-radius:6px;transition:all .15s;}
+.opt:hover:not(:disabled){border-color:var(--amber);}
+.opt:disabled{cursor:default;}
+.opt[data-state="correct"]{background:var(--green);border-color:var(--green);}
+.opt[data-state="wrong"]{background:var(--wrong);border-color:var(--wrong);}
+.fb{font-size:12.6px;margin-top:9px;color:#CFE3D6;min-height:17px;}
+.quiz-foot{margin-top:13px;display:flex;gap:9px;}
+.quiz-foot .btn{flex:1;padding:11px;font-size:13.5px;}
+.result-big{font-family:'Space Grotesk';font-size:38px;font-weight:700;text-align:center;margin:6px 0 2px;}
+.result-sub{text-align:center;font-size:13px;color:#CFE3D6;margin-bottom:15px;}
+.cert{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:8px;padding:16px;text-align:center;}
+.cert-badge{width:46px;height:46px;background:var(--amber);border-radius:50%;margin:0 auto 9px;display:flex;align-items:center;justify-content:center;font-size:21px;}
+.cert h4{font-size:15px;color:var(--warn-strong);margin-bottom:4px;text-transform:none;letter-spacing:0;}
+.cert p{font-size:11.8px;color:var(--warn-ink);}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+@media(max-width:880px){.grid{grid-template-columns:repeat(2,1fr);}.c-body{grid-template-columns:1fr;}.side{position:static;}}
+@media(max-width:560px){.grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
 <nav><div class="container">
-  <div class="logo">SQUARE<span>UP</span></div>
-  <div class="crumbs"><a href="#">Home</a> / Courses</div>
+  <button class="logo" id="homeBtn">SQUARE<span>UP</span></button>
+  <div class="nav-right">
+    <span class="nav-badgecount" id="badgeCount"></span>
+    <button class="nav-back" id="backBtn" hidden>← All refreshers</button>
+  </div>
 </div></nav>
 
-<header class="hub-hero"><div class="container">
-  <h1 class="hub-title">Free skills refreshers for tradies</h1>
-  <p class="hub-sub">Quick, practical calculation refreshers built for the job — not red tape. Complete one to add a Skills Refresher badge to your profile.</p>
-
-  <div class="banner">
-    <div class="banner-icon">i</div>
-    <p><b style="display:block;color:#5A4A1E;">Not accredited CPD.</b>These are free skills refreshers only — they don't count toward licence renewal or CPD requirements. Always refer to current AS/NZS standards and your state regulator.</p>
-  </div>
-
-  <div class="filter-bar" id="filterBar">
-    <div class="filter-chip active" data-f="all">All trades</div>
-    <div class="filter-chip" data-f="Plumbing">Plumbing</div>
-    <div class="filter-chip" data-f="Electrical">Electrical</div>
-    <div class="filter-chip" data-f="Carpentry">Carpentry</div>
-    <div class="filter-chip" data-f="Outdoor">Outdoor &amp; Roofing</div>
-    <div class="filter-chip" data-f="Finishing">Finishing &amp; Fit-out</div>
-    <div class="filter-chip" data-f="Other">Other</div>
-  </div>
-</div></header>
-
-<main class="container hub-body">
-  <div class="course-grid" id="courseGrid">
-
-    <div class="course-card" data-trade="Electrical">
-      <div class="card-top"><span class="trade-pill">Electrical</span><span class="free-pill">Free</span></div>
-      <h3>Voltage Drop &amp; Cable Sizing Refresher</h3>
-      <p>The mV/A/m calculation method, the 5% rule, and a worked example sizing cable for a 32A circuit.</p>
-      <div class="card-meta"><span><b>20 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
-    </div>
-
-    <div class="course-card" data-trade="Plumbing">
-      <div class="card-top"><span class="trade-pill">Plumbing</span><span class="free-pill">Free</span></div>
-      <h3>Pipe Sizing &amp; Water Pressure Basics</h3>
-      <p>Calculating pipe diameter from flow rate and fixture units, plus pressure loss over length and elevation.</p>
-      <div class="card-meta"><span><b>20 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
-    </div>
-
-    <div class="course-card" data-trade="Electrical">
-      <div class="card-top"><span class="trade-pill">Electrical</span><span class="free-pill">Free</span></div>
-      <h3>Load Calculations &amp; Circuit Basics</h3>
-      <p>Total connected load for a switchboard and cable sizing based on current draw and run length.</p>
-      <div class="card-meta"><span><b>20 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
-    </div>
-
-    <div class="course-card" data-trade="Carpentry">
-      <div class="card-top"><span class="trade-pill">Carpentry</span><span class="free-pill">Free</span></div>
-      <h3>Timber Sizing &amp; Span Tables</h3>
-      <p>Reading span tables for joists and bearers, and sizing bearers for a standard deck frame.</p>
-      <div class="card-meta"><span><b>20 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
-    </div>
-
-    <div class="course-card" data-trade="Finishing">
-      <div class="card-top"><span class="trade-pill">Painting</span><span class="free-pill">Free</span></div>
-      <h3>Coverage &amp; Quantity Estimating</h3>
-      <p>Calculating litres needed from surface area and coverage rate, adjusted for texture and coats.</p>
-      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
-    </div>
-
-    <div class="course-card" data-trade="Finishing">
-      <div class="card-top"><span class="trade-pill">Tiling</span><span class="free-pill">Free</span></div>
-      <h3>Tile Quantity &amp; Layout Calculations</h3>
-      <p>Calculating tile quantity from area including wastage %, plus adhesive and grout estimating.</p>
-      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
-    </div>
-
-    <div class="course-card" data-trade="Outdoor">
-      <div class="card-top"><span class="trade-pill">Roofing</span><span class="free-pill">Free</span></div>
-      <h3>Roof Area &amp; Material Calculations</h3>
-      <p>Calculating roof area from pitch and footprint, and estimating sheet/tile quantities and fixings.</p>
-      <div class="card-meta"><span><b>20 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
-    </div>
-
-    <div class="course-card" data-trade="Outdoor">
-      <div class="card-top"><span class="trade-pill">Landscaping</span><span class="free-pill">Free</span></div>
-      <h3>Materials &amp; Quantity Calculations</h3>
-      <p>Calculating soil/mulch volume and turf/paving quantities with a wastage allowance.</p>
-      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
-    </div>
-
-    <div class="course-card" data-trade="Outdoor">
-      <div class="card-top"><span class="trade-pill">Fencing</span><span class="free-pill">Free</span></div>
-      <h3>Materials &amp; Post Spacing Calculations</h3>
-      <p>Calculating post spacing and quantity for a fence run, with panel and concrete estimating.</p>
-      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
-    </div>
-
-    <div class="course-card" data-trade="Other">
-      <div class="card-top"><span class="trade-pill">Handyman</span><span class="free-pill">Free</span></div>
-      <h3>Quoting Multi-Task Jobs</h3>
-      <p>Breaking a job list into time-per-task estimates and materials estimating for common small jobs.</p>
-      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
-    </div>
-
-    <div class="course-card" data-trade="Other">
-      <div class="card-top"><span class="trade-pill">Cleaning</span><span class="free-pill">Free</span></div>
-      <h3>Job Scoping &amp; Time Estimating</h3>
-      <p>Estimating time and cost by property size and job type, plus safe chemical dilution ratios.</p>
-      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
-    </div>
-
-    <div class="course-card" data-trade="Other">
-      <div class="card-top"><span class="trade-pill">Removalists</span><span class="free-pill">Free</span></div>
-      <h3>Volume &amp; Crew Time Estimating</h3>
-      <p>Estimating truck volume needed from home size/inventory and calculating crew hours.</p>
-      <div class="card-meta"><span><b>15 min</b> · 3 lessons</span><span class="badge-mini">Refresher badge</span></div>
-    </div>
-
-    <div class="coming-soon">
-      <h3>30 more trades coming soon</h3>
-      <p>Gas, concreting, plastering, pest control &amp; more — same free, practical format.</p>
-    </div>
-
-  </div>
-</main>
+<main id="app"></main>
 
 <script>
-document.querySelectorAll('.filter-chip').forEach(chip=>{
-  chip.addEventListener('click',()=>{
-    document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
-    chip.classList.add('active');
-    const f = chip.getAttribute('data-f');
-    document.querySelectorAll('.course-card').forEach(card=>{
-      const match = (f==='all' || card.getAttribute('data-trade')===f);
-      card.style.display = match ? 'flex' : 'none';
+/* ============ COURSE DATA ============ */
+const COURSES = [
+  {
+    id:"voltage-drop", trade:"Electrical", group:"Electrical", mins:20,
+    title:"Voltage Drop & Cable Sizing Refresher",
+    blurb:"The mV/A/m method, the 5% rule, and a worked example sizing cable for a 32A circuit.",
+    lessons:[
+      {t:"Why voltage drop matters on site", b:`<p>Undersized cable on long runs is one of the most common compliance fails inspectors find. Excess voltage drop means appliances underperform, motors run hot, and the circuit may fail compliance even though it appears to work fine on test day.</p><div class="eg"><b>Rule of thumb:</b> voltage drop should not exceed <code>5%</code> of nominal voltage for most final sub-circuits. Tighter limits apply to some installations — always confirm against the current AS/NZS 3008 tables.</div>`},
+      {t:"The mV/A/m calculation method", b:`<p>Cable tables list a voltage drop figure in millivolts per amp per metre (mV/A/m). Multiply that figure by the circuit's current and the run length, then convert the result to a percentage of supply voltage.</p><div class="eg">Voltage drop (V) = (mV/A/m × Current × Length) ÷ 1000</div>`},
+      {t:"Worked example: 32A circuit, 35m run", b:`<p>A 32A circuit runs 35m to a shed sub-board on 6mm² cable (approximately 7.3 mV/A/m).</p><div class="eg">Voltage drop = (7.3 × 32 × 35) ÷ 1000 = <b>8.18 V</b><br>As a % of 230 V supply: 8.18 ÷ 230 × 100 = <b>3.6%</b> — within the 5% limit.<br><br>If the run were 55 m instead, the drop rises to about <b>5.6%</b> — the cable size would need to increase.</div>`}
+    ],
+    bank:[
+      {q:"A final sub-circuit calculates to 6.2% voltage drop. What should you do?",o:["Nothing — it's close enough","Increase cable size or shorten the run","Increase the circuit breaker rating","Reduce the supply voltage"],a:1,f:"Exceeding the 5% limit means the cable needs upsizing or the run shortened."},
+      {q:"What does mV/A/m represent in cable tables?",o:["Maximum voltage per amp","Millivolts of drop per amp per metre","Minimum voltage across the metre","Metres of cable per amp"],a:1,f:"It's the voltage drop in millivolts, per amp of current, per metre of run."},
+      {q:"In the formula, why divide by 1000?",o:["To convert amps to milliamps","To convert millivolts to volts","To allow for a safety factor","To convert metres to kilometres"],a:1,f:"The table figure is in millivolts, so dividing by 1000 gives volts."},
+      {q:"Doubling the run length, with all else unchanged, does what to voltage drop?",o:["Halves it","Leaves it unchanged","Doubles it","Quadruples it"],a:2,f:"Voltage drop is directly proportional to length."},
+      {q:"A 20A circuit runs 40m on cable rated 9.0 mV/A/m. What is the approximate drop?",o:["3.6 V","7.2 V","18 V","0.72 V"],a:1,f:"(9.0 × 20 × 40) ÷ 1000 = 7.2 V."},
+      {q:"Which change would reduce voltage drop on an existing run?",o:["Fitting a larger cross-sectional cable","Fitting a higher-rated breaker","Adding more load to the circuit","Extending the run"],a:0,f:"A larger cross-sectional area lowers the mV/A/m figure, reducing drop."},
+      {q:"Voltage drop of 8.05 V on a 230 V supply is what percentage?",o:["Around 1.8%","Around 3.5%","Around 5.9%","Around 8.0%"],a:1,f:"8.05 ÷ 230 × 100 ≈ 3.5%."},
+      {q:"Which standard is the primary reference for cable selection and voltage drop figures in Australia?",o:["AS/NZS 3008","AS/NZS 5601","AS/NZS 3500","AS 1562"],a:0,f:"AS/NZS 3008 covers cable selection, including voltage drop data."},
+      {q:"Excess voltage drop most directly causes which on-site symptom?",o:["Breakers tripping on overload","Appliances underperforming and motors running hot","Reversed polarity","Higher earth fault loop impedance only"],a:1,f:"Reduced voltage at the load means underperformance and heat in motors."},
+      {q:"Which run is most at risk of excessive voltage drop?",o:["A 5m run at 10A","A 60m run at 32A","A 10m run at 16A","A 3m run at 40A"],a:1,f:"Both high current and long length increase drop — this run has both."}
+    ]
+  },
+  {
+    id:"pipe-sizing", trade:"Plumbing", group:"Plumbing", mins:20,
+    title:"Pipe Sizing & Water Pressure Basics",
+    blurb:"Calculating pipe diameter from flow rate and fixture units, plus pressure loss over length and elevation.",
+    lessons:[
+      {t:"Fixture units and peak demand", b:`<p>Pipe sizing starts with demand, not guesswork. Each fixture is assigned loading units, and the total for a branch converts to a probable simultaneous flow rate — fixtures are rarely all used at once, so the conversion is non-linear.</p><div class="eg"><b>Key point:</b> sizing to the sum of every fixture's maximum flow oversizes the pipe, wastes money, and can cause water to sit and stagnate in oversized mains.</div>`},
+      {t:"Pressure loss: friction and elevation", b:`<p>Two things eat available pressure: friction through the pipe and fittings, and static lift where water has to rise.</p><div class="eg">Every <b>1 m</b> of vertical rise costs approximately <b>10 kPa</b> of pressure.<br><br>Friction loss increases with flow velocity and pipe length, and decreases with larger diameter.</div>`},
+      {t:"Worked example: supply to a 3-bathroom home", b:`<p>A two-storey home with three bathrooms needs supply to the upper floor, 6m above the meter, with 320 kPa available at the meter.</p><div class="eg">Static loss for 6 m rise: 6 × 10 = <b>60 kPa</b><br>Remaining before friction: 320 − 60 = <b>260 kPa</b><br><br>Friction losses across the run and fittings must then leave enough residual pressure at the least favourable outlet. Undersize the pipe and velocity rises, friction climbs sharply, and the top-floor shower suffers when another outlet opens.</div>`}
+    ],
+    bank:[
+      {q:"Approximately how much pressure is lost per metre of vertical rise?",o:["1 kPa","10 kPa","100 kPa","0.1 kPa"],a:1,f:"Roughly 10 kPa per metre of static lift."},
+      {q:"Why is pipe not sized to the sum of all fixtures' maximum flows?",o:["Fixtures are rarely used simultaneously","Maximum flows are unknown","It would undersize the pipe","Regulations forbid it"],a:0,f:"Probable simultaneous demand is far lower than the theoretical maximum."},
+      {q:"What happens to friction loss as pipe diameter increases, flow unchanged?",o:["It increases","It decreases","It stays the same","It becomes negative"],a:1,f:"Larger diameter lowers velocity and therefore friction loss."},
+      {q:"A 4m rise from a 300 kPa supply leaves roughly what before friction losses?",o:["260 kPa","290 kPa","240 kPa","300 kPa"],a:0,f:"4 × 10 = 40 kPa lost, leaving about 260 kPa."},
+      {q:"Which outlet should sizing calculations be checked against?",o:["The nearest outlet","The least favourable (highest/furthest) outlet","The largest-diameter outlet","Any outlet on the ground floor"],a:1,f:"If the least favourable outlet works, the rest will."},
+      {q:"An oversized main can cause which problem?",o:["Excessive velocity","Water stagnation","Higher friction loss","Increased static pressure"],a:1,f:"Low velocity in oversized pipe allows water to sit and stagnate."},
+      {q:"Which standard series primarily governs plumbing and drainage in Australia?",o:["AS/NZS 3000","AS/NZS 3500","AS/NZS 3008","AS 1562"],a:1,f:"AS/NZS 3500 covers plumbing and drainage."},
+      {q:"Two main contributors to pressure loss in a supply run are:",o:["Friction and elevation","Temperature and colour","Pipe material and brand","Meter age and outlet count"],a:0,f:"Friction through pipe and fittings, plus static lift."},
+      {q:"Higher flow velocity in a given pipe generally means:",o:["Lower friction loss","Higher friction loss","No change to friction","Lower noise"],a:1,f:"Friction loss rises sharply with velocity."},
+      {q:"A top-floor shower drops off when a tap opens downstairs. Most likely cause?",o:["Pipe is oversized","Insufficient residual pressure / undersized supply","Excess static pressure","Too many fixture units unused"],a:1,f:"Undersized supply means friction losses spike when demand increases."}
+    ]
+  },
+  {
+    id:"span-tables", trade:"Carpentry", group:"Carpentry", mins:20,
+    title:"Timber Sizing & Span Tables",
+    blurb:"Reading span tables for joists and bearers, and sizing bearers for a standard deck frame.",
+    lessons:[
+      {t:"What a span table actually tells you", b:`<p>A span table gives the maximum distance a member can span for a given size, timber stress grade, spacing, and load condition. Change any one of those inputs and you're reading the wrong row.</p><div class="eg"><b>Common error:</b> reading a joist table for a bearer, or using a residential floor-load table for a deck carrying heavier or different loading.</div>`},
+      {t:"Spacing, load width and stress grade", b:`<p>Joist spacing and the load width a bearer carries both change the answer. A bearer supporting joists spanning 3 m either side carries a 3 m load width, not 1.5 m.</p><div class="eg">Load width = half the joist span on one side + half on the other.<br><br>Stress grade (e.g. MGP10, F17) materially changes allowable span — never substitute a lower grade without re-checking.</div>`},
+      {t:"Worked example: bearers for a 4m × 3m deck", b:`<p>A deck 4 m × 3 m has joists spanning 3 m at 450 mm centres, supported on two bearers.</p><div class="eg">Each bearer carries a load width of about <b>1.5 m</b> (half the 3 m joist span).<br>Bearer span between posts is set by post spacing — reducing post spacing shortens bearer span and allows a smaller bearer section.<br><br>Always confirm the final selection against the current span tables for the timber grade actually being supplied.</div>`}
+    ],
+    bank:[
+      {q:"A span table's maximum span depends on all of these EXCEPT:",o:["Timber stress grade","Member spacing","Load condition","The colour of the finish"],a:3,f:"Grade, spacing and loading all matter; finish colour does not."},
+      {q:"Load width for a bearer is calculated as:",o:["The full joist span","Half the joist span each side, added","The deck perimeter","Post spacing"],a:1,f:"Load width totals half the joist span from each side."},
+      {q:"Reducing post spacing has what effect on required bearer size?",o:["Requires a larger bearer","Allows a smaller bearer","No effect","Doubles the span"],a:1,f:"Shorter bearer spans permit smaller sections."},
+      {q:"Substituting a lower stress grade timber without rechecking spans is:",o:["Fine if the size is the same","Unsafe — allowable span changes with grade","Only an issue for bearers","Required by the tables"],a:1,f:"Stress grade directly changes allowable span."},
+      {q:"Joists at 450mm centres versus 600mm centres will generally:",o:["Allow a longer span at 450","Allow a longer span at 600","Make no difference","Halve the load width"],a:0,f:"Closer spacing shares load between more members, allowing longer spans."},
+      {q:"Which is a common span table error on site?",o:["Reading a joist table for a bearer","Checking the stress grade","Confirming spacing","Measuring the span"],a:0,f:"Joist and bearer tables are not interchangeable."},
+      {q:"MGP10 and F17 are examples of:",o:["Fastener types","Timber stress grades","Span lengths","Load widths"],a:1,f:"They are stress grades affecting allowable span."},
+      {q:"A bearer supporting joists that span 3m either side carries a load width of:",o:["1.5 m","3 m","6 m","0.75 m"],a:1,f:"Half of 3 m from each side = 3 m total load width."},
+      {q:"If the supplied timber differs from what was specified, you should:",o:["Proceed as planned","Re-check spans against tables for the supplied grade","Reduce the span by 10%","Add more fixings"],a:1,f:"Re-check against the actual grade supplied."},
+      {q:"Deck framing should be checked against tables for:",o:["Any residential floor load","The load condition matching the deck's actual use","Roof loading only","Whichever gives the longest span"],a:1,f:"Use the table matching the real load condition."}
+    ]
+  },
+  {
+    id:"paint-coverage", trade:"Painting", group:"Finishing", mins:15,
+    title:"Coverage & Quantity Estimating",
+    blurb:"Calculating litres needed from surface area and coverage rate, adjusted for texture and number of coats.",
+    lessons:[
+      {t:"Area first, then coverage rate", b:`<p>Every paint quote starts with net area: gross wall area minus openings. Then divide by the product's stated spread rate, and multiply by the number of coats.</p><div class="eg">Litres = (Net area ÷ spread rate m²/L) × number of coats</div>`},
+      {t:"Why the tin's number is optimistic", b:`<p>Stated spread rates assume smooth, sealed, primed substrate and ideal application. Real surfaces rarely match.</p><div class="eg">Typical adjustments: rendered or textured surfaces can cut effective coverage by <b>20–30%</b>; bare or porous substrates soak up significantly more on the first coat.</div>`},
+      {t:"Worked example: 3-bedroom exterior", b:`<p>Net exterior wall area of 210 m², product rated 14 m²/L, two coats, rendered (textured) finish.</p><div class="eg">Base: (210 ÷ 14) × 2 = <b>30 L</b><br>Texture adjustment at 25%: 30 × 1.25 = <b>37.5 L</b><br>Round up to available tin sizes, and allow extra for touch-ups.</div>`}
+    ],
+    bank:[
+      {q:"Net area for a paint quote is:",o:["Gross area plus 10%","Gross area minus openings","Floor area","Perimeter × height × 2"],a:1,f:"Deduct windows and doors from gross wall area."},
+      {q:"120 m² at 12 m²/L, two coats, requires approximately:",o:["10 L","20 L","24 L","5 L"],a:1,f:"(120 ÷ 12) × 2 = 20 L."},
+      {q:"A textured render surface typically affects coverage how?",o:["Improves it by 20%","Reduces it by roughly 20–30%","No effect","Doubles it"],a:1,f:"Texture increases surface area, reducing effective coverage."},
+      {q:"Stated spread rates on the tin assume:",o:["Worst-case porous substrate","Smooth, sealed, primed substrate","Textured render","Single coat over bare timber"],a:1,f:"They assume ideal, prepared conditions."},
+      {q:"Bare, porous substrate on the first coat means:",o:["Less paint is used","More paint is absorbed","Coverage is unchanged","A third coat is unnecessary"],a:1,f:"Porous surfaces absorb significantly more on the first coat."},
+      {q:"Which is missing from this calc: area ÷ spread rate = litres?",o:["Number of coats","Perimeter","Ceiling height","Tin size"],a:0,f:"Multiply by the number of coats."},
+      {q:"After calculating litres you should:",o:["Round down to the nearest tin","Round up and allow for touch-ups","Order exactly the calculated figure","Halve it for the second coat"],a:1,f:"Round up to available tin sizes with touch-up allowance."},
+      {q:"200 m² at 16 m²/L over two coats is:",o:["12.5 L","25 L","32 L","6.25 L"],a:1,f:"(200 ÷ 16) × 2 = 25 L."},
+      {q:"Higher spread rate (m²/L) means:",o:["More paint needed","Less paint needed","No difference","Thicker film"],a:1,f:"A higher m²/L figure covers more area per litre."},
+      {q:"The single biggest cause of running short on a job is usually:",o:["Using the tin's ideal spread rate without adjustment","Ordering too many coats","Deducting openings","Measuring the perimeter"],a:0,f:"Unadjusted ideal spread rates underestimate real-world use."}
+    ]
+  },
+  {
+    id:"tile-quantity", trade:"Tiling", group:"Finishing", mins:15,
+    title:"Tile Quantity & Layout Calculations",
+    blurb:"Calculating tile quantity from area including wastage, plus adhesive and grout estimating.",
+    lessons:[
+      {t:"Area to tile count", b:`<p>Work in square metres, not tile counts, until the very end — box coverage is quoted in m², and tile sizes vary between ranges.</p><div class="eg">Tiles needed (m²) = floor/wall area + wastage allowance</div>`},
+      {t:"Wastage: not a flat 10%", b:`<p>Wastage depends on layout and tile size, not habit.</p><div class="eg">Straight lay, small format: around <b>10%</b><br>Diagonal or herringbone: <b>15–20%</b><br>Large format or heavily cut rooms: allow more<br><br>Always add extra for future repairs — dye lots change between batches.</div>`},
+      {t:"Worked example: 12 m² bathroom", b:`<p>A bathroom with 5 m² floor and 7 m² of wall tiling, straight lay.</p><div class="eg">Total area: <b>12 m²</b><br>At 10% wastage: 12 × 1.10 = <b>13.2 m²</b><br>Round up to full boxes.<br><br>Adhesive and grout are then estimated from coverage rates on the product bag, which vary with notch size, tile size and joint width.</div>`}
+    ],
+    bank:[
+      {q:"Tile quantities should be calculated primarily in:",o:["Tile count","Square metres","Linear metres","Boxes only"],a:1,f:"Box coverage is quoted in m², so work in area."},
+      {q:"Typical wastage for a straight lay, small-format tile is around:",o:["2%","10%","30%","50%"],a:1,f:"Around 10% for straightforward straight-lay work."},
+      {q:"Diagonal or herringbone layouts typically need wastage of:",o:["5%","10%","15–20%","0%"],a:2,f:"More cuts mean higher wastage."},
+      {q:"20 m² at 15% wastage requires approximately:",o:["21 m²","23 m²","25 m²","20 m²"],a:1,f:"20 × 1.15 = 23 m²."},
+      {q:"Why order extra beyond the calculated figure?",o:["Dye lots vary between batches","Tiles shrink","Adhesive needs it","Boxes are always short"],a:0,f:"Future repairs need matching tiles from the same dye lot."},
+      {q:"Adhesive coverage varies mainly with:",o:["Tile colour","Notch size, tile size and joint width","Room temperature only","Grout brand"],a:1,f:"Notch size and tile format drive adhesive consumption."},
+      {q:"10 m² floor and 6 m² wall, at 10% wastage:",o:["16 m²","17.6 m²","18.6 m²","16.6 m²"],a:1,f:"16 × 1.10 = 17.6 m²."},
+      {q:"Large format tiles in a heavily cut room need:",o:["Less wastage allowance","More wastage allowance","The same 10%","No allowance"],a:1,f:"More cuts and larger offcuts mean higher wastage."},
+      {q:"After calculating m² including wastage you should:",o:["Round down","Round up to full boxes","Order exactly","Subtract one box"],a:1,f:"Tiles ship in full boxes — round up."},
+      {q:"Grout quantity depends on:",o:["Joint width and tile size","Tile brand only","Room height","Adhesive colour"],a:0,f:"Joint width and tile dimensions determine grout volume."}
+    ]
+  },
+  {
+    id:"roof-area", trade:"Roofing", group:"Outdoor", mins:20,
+    title:"Roof Area & Material Calculations",
+    blurb:"Calculating roof area from pitch and footprint, and estimating sheet or tile quantities and fixings.",
+    lessons:[
+      {t:"Footprint is not roof area", b:`<p>A pitched roof always has more surface area than the building footprint beneath it. Quoting off the footprint alone under-orders material every time.</p><div class="eg">Roof area = footprint area × pitch factor<br><br>The pitch factor rises with roof angle — a steeper roof covers the same footprint with substantially more material.</div>`},
+      {t:"Overhangs, laps and fixings", b:`<p>Add eaves overhangs to the footprint before applying the pitch factor, then allow for side and end laps between sheets.</p><div class="eg">Fixing quantities come from the fastener spacing specified for the profile and wind classification — not a generic per-sheet figure.</div>`},
+      {t:"Worked example: gable roof re-cover", b:`<p>A rectangular building 10 m × 6 m with 400 mm eaves overhangs on all sides, moderate pitch.</p><div class="eg">Footprint including overhangs: 10.8 × 6.8 = <b>73.4 m²</b><br>Apply the pitch factor for the actual roof angle to get true roof area.<br>Then add sheet laps and a cutting allowance before ordering.<br><br>Confirm fixing type, spacing and wind classification against the manufacturer's specification for the profile used.</div>`}
+    ],
+    bank:[
+      {q:"Quoting roof material off the building footprint alone will:",o:["Over-order material","Under-order material","Be exactly right","Only matter on flat roofs"],a:1,f:"Pitched roof area always exceeds the footprint."},
+      {q:"As roof pitch increases, the pitch factor:",o:["Decreases","Increases","Stays at 1.0","Becomes negative"],a:1,f:"Steeper roofs have proportionally more surface area."},
+      {q:"Eaves overhangs should be:",o:["Ignored","Added to the footprint before applying pitch factor","Subtracted from the footprint","Applied after ordering"],a:1,f:"Overhangs increase the plan area to be covered."},
+      {q:"A 10m × 6m building with 400mm overhangs all round has a plan area of about:",o:["60 m²","73.4 m²","64 m²","80 m²"],a:1,f:"10.8 × 6.8 = 73.44 m²."},
+      {q:"Fixing quantities should be based on:",o:["A generic per-sheet figure","Specified spacing for the profile and wind classification","The installer's preference","Sheet length only"],a:1,f:"Spacing is specified by profile and wind classification."},
+      {q:"Sheet laps affect quantities because:",o:["They reduce effective coverage per sheet","They increase coverage","They have no effect","They replace fixings"],a:0,f:"Overlapping reduces the net coverage of each sheet."},
+      {q:"A flat roof's pitch factor is closest to:",o:["1.0","1.5","2.0","0.5"],a:0,f:"With no pitch, roof area approximates the plan area."},
+      {q:"Which should be confirmed against the manufacturer's specification?",o:["Fixing type and spacing","The building's address","The customer's budget","Delivery date"],a:0,f:"Fixing specification is product- and wind-classification specific."},
+      {q:"Wind classification affects:",o:["Sheet colour","Fixing spacing requirements","Roof pitch","Gutter size only"],a:1,f:"Higher wind classifications require closer fixing spacing."},
+      {q:"A cutting allowance is added because:",o:["Sheets always arrive short","Offcuts and trimming create wastage","Fixings need it","Pitch factor is inaccurate"],a:1,f:"Trimming and offcuts create unavoidable wastage."}
+    ]
+  }  ,{
+    id:"load-calcs", trade:"Electrical", group:"Electrical", mins:20,
+    title:"Load Calculations & Circuit Basics",
+    blurb:"Calculating total connected load for a switchboard and sizing circuits to match real demand.",
+    lessons:[
+      {t:"Connected load vs maximum demand", b:`<p>Connected load is the sum of everything wired in. Maximum demand is what the installation actually draws at its busiest — always lower, because not everything runs at once.</p><div class="eg"><b>Why it matters:</b> sizing mains to the full connected load massively oversizes the installation. Sizing to a guess undersizes it. Demand is calculated using the diversity figures in the Wiring Rules for each load type.</div>`},
+      {t:"Diversity and load groups", b:`<p>Loads are grouped by type — lighting, socket outlets, cooking appliances, air conditioning, motors — and each group has its own allowance because usage patterns differ.</p><div class="eg">A cooking appliance group might be assessed on the first appliance at full rating plus a percentage of the rest.<br><br>Fixed loads that run continuously (refrigeration, some HVAC) attract far less diversity than intermittent loads.</div>`},
+      {t:"Worked example: domestic switchboard", b:`<p>A dwelling with lighting, several socket circuits, an oven, and a split system.</p><div class="eg">1. List every circuit and its connected load.<br>2. Group by load type.<br>3. Apply the diversity allowance for each group.<br>4. Sum the results to get maximum demand in amps.<br>5. Size the main switch, mains cable and protective device to that figure — not to the connected load total.<br><br>Always work from the current AS/NZS 3000 demand tables; the allowances are revised between editions.</div>`}
+    ],
+    bank:[
+      {q:"Maximum demand compared to connected load is normally:",o:["Higher","Lower","Identical","Irrelevant"],a:1,f:"Not everything runs simultaneously, so demand is lower."},
+      {q:"Sizing mains to the full connected load results in:",o:["An undersized installation","A significantly oversized installation","A correctly sized installation","A safety breach"],a:1,f:"It ignores diversity and oversizes everything."},
+      {q:"Diversity allowances differ between load groups because:",o:["Cables vary","Usage patterns differ by load type","Voltage differs","Installers prefer it"],a:1,f:"Lighting, cooking and motors have different usage profiles."},
+      {q:"Which load type attracts the LEAST diversity?",o:["Socket outlets","Continuously running fixed loads","Occasional-use appliances","Decorative lighting"],a:1,f:"Continuous loads run constantly, so little diversity applies."},
+      {q:"Maximum demand is expressed in:",o:["Amps","Metres","Ohms per metre","Litres"],a:0,f:"Demand is calculated as a current in amps."},
+      {q:"Which standard contains the maximum demand tables in Australia?",o:["AS/NZS 3000","AS/NZS 3008","AS/NZS 3500","AS 4055"],a:0,f:"AS/NZS 3000, the Wiring Rules."},
+      {q:"After calculating maximum demand you size:",o:["Only the light fittings","Main switch, mains cable and protective device","The meter box colour","The earth stake only"],a:1,f:"Demand drives mains and protection sizing."},
+      {q:"Using an older edition's diversity figures is risky because:",o:["Allowances are revised between editions","Amps change over time","Cables shrink","It voids the cable warranty"],a:0,f:"Demand allowances are updated between editions."},
+      {q:"The first step in a demand calculation is:",o:["Choosing a breaker","Listing every circuit and its connected load","Generating the certificate","Measuring voltage drop"],a:1,f:"You cannot group or apply diversity without the full list."},
+      {q:"Two dwellings with identical connected load may have different maximum demand if:",o:["Their load composition differs by group","They are in different suburbs","One is newer","The meters differ"],a:0,f:"Different load mixes attract different diversity allowances."}
+    ]
+  },
+  {
+    id:"landscaping-quantities", trade:"Landscaping", group:"Outdoor", mins:15,
+    title:"Materials & Quantity Calculations",
+    blurb:"Calculating soil and mulch volume, plus turf and paving quantities with a wastage allowance.",
+    lessons:[
+      {t:"Volume: area × depth", b:`<p>Soil, mulch, sand and gravel are sold by volume in cubic metres. The calculation is simple, but depth must be in metres, not millimetres.</p><div class="eg">Volume (m³) = Area (m²) × Depth (m)<br><br>75 mm of mulch is <b>0.075 m</b>, not 75.</div>`},
+      {t:"Compaction and settling", b:`<p>Loose material compacts once spread and watered in. Ordering the exact calculated volume usually leaves the job short.</p><div class="eg">Typical allowance: add <b>10–20%</b> for compaction and settling on soil and base materials.<br><br>Mulch settles less than soil; road base compacts significantly more.</div>`},
+      {t:"Worked example: 40 m² garden makeover", b:`<p>A 40 m² bed needs 100 mm of garden soil, topped with 75 mm of mulch.</p><div class="eg">Soil: 40 × 0.10 = <b>4.0 m³</b><br>Mulch: 40 × 0.075 = <b>3.0 m³</b><br><br>With a 15% allowance on the soil: 4.0 × 1.15 = <b>4.6 m³</b><br><br>Turf is ordered by area plus roughly 5% for cuts and shaping around curves.</div>`}
+    ],
+    bank:[
+      {q:"Volume of bulk materials is calculated as:",o:["Area ÷ depth","Area × depth","Perimeter × depth","Area + depth"],a:1,f:"Volume = area × depth, both in metres."},
+      {q:"75 mm expressed in metres is:",o:["0.75","7.5","0.075","750"],a:2,f:"75 mm = 0.075 m."},
+      {q:"50 m² at 100 mm depth requires:",o:["5 m³","50 m³","0.5 m³","500 m³"],a:0,f:"50 × 0.1 = 5 m³."},
+      {q:"Why add an allowance beyond the calculated volume?",o:["Suppliers short-deliver","Material compacts and settles","Trucks are inaccurate","Regulations require it"],a:1,f:"Loose material compacts once spread and watered."},
+      {q:"Which compacts the most?",o:["Mulch","Road base","Bark chip","Compost"],a:1,f:"Road base is designed to compact significantly."},
+      {q:"Typical compaction allowance on soil is:",o:["1–2%","10–20%","50%","None"],a:1,f:"Around 10–20% depending on material."},
+      {q:"Turf is ordered by:",o:["Volume in m³","Area in m² plus a small wastage allowance","Weight","Linear metres only"],a:1,f:"Area, plus roughly 5% for cuts and curves."},
+      {q:"30 m² of mulch at 75 mm depth is:",o:["2.25 m³","22.5 m³","0.225 m³","225 m³"],a:0,f:"30 × 0.075 = 2.25 m³."},
+      {q:"The most common quantity error on site is:",o:["Using millimetres as metres in the depth figure","Measuring the area","Ordering turf","Checking the invoice"],a:0,f:"Depth must be converted to metres first."},
+      {q:"Curved or irregular turf areas need:",o:["Less allowance","More wastage allowance for cuts","No allowance","Exactly the measured area"],a:1,f:"Shaping around curves creates offcuts."}
+    ]
+  },
+  {
+    id:"fencing-spacing", trade:"Fencing", group:"Outdoor", mins:15,
+    title:"Materials & Post Spacing Calculations",
+    blurb:"Calculating post spacing and quantity for a fence run, with panel and concrete estimating.",
+    lessons:[
+      {t:"Posts: spacing and the plus-one rule", b:`<p>The classic error is dividing run length by spacing and ordering that many posts — forgetting the post at the far end.</p><div class="eg">Posts = (Run length ÷ spacing) + 1<br><br>A 30 m run at 2.4 m spacing: (30 ÷ 2.4) + 1 = 12.5 + 1 → <b>14 posts</b> once rounded up.</div>`},
+      {t:"Hole volume and concrete", b:`<p>Each post hole is a cylinder. Concrete per hole is its volume, less the post itself, times the number of holes.</p><div class="eg">Hole volume (m³) = π × radius² × depth<br><br>A 300 mm diameter hole 600 mm deep: 3.14 × 0.15² × 0.6 ≈ <b>0.042 m³</b> per hole.<br><br>End and corner posts usually need deeper, wider footings than intermediate posts.</div>`},
+      {t:"Worked example: 30 m boundary fence", b:`<p>A 30 m paling fence, posts at 2.4 m centres, three rails per bay.</p><div class="eg">Posts: 14 (including the end post)<br>Bays: <b>13</b><br>Rails: 13 bays × 3 = <b>39 rails</b><br>Concrete: 14 × 0.042 ≈ <b>0.59 m³</b>, plus extra for deeper corner footings<br><br>Palings are then calculated from bay width divided by paling width, allowing for overlap or gap spacing.</div>`}
+    ],
+    bank:[
+      {q:"Posts required for a fence run are calculated as:",o:["Length ÷ spacing","(Length ÷ spacing) + 1","(Length ÷ spacing) − 1","Length × spacing"],a:1,f:"You need a post at both ends, hence the plus one."},
+      {q:"A 24 m run at 2.4 m spacing needs how many posts?",o:["10","11","12","9"],a:1,f:"(24 ÷ 2.4) + 1 = 11."},
+      {q:"For a run with 14 posts, the number of bays is:",o:["14","13","15","7"],a:1,f:"Bays are always one fewer than posts."},
+      {q:"Post hole volume is calculated using:",o:["π × radius² × depth","Length × width","2πr","Depth ÷ radius"],a:0,f:"The hole is a cylinder."},
+      {q:"End and corner posts typically need:",o:["Shallower footings","Deeper, wider footings","No concrete","Smaller diameter"],a:1,f:"They carry greater load, so footings are larger."},
+      {q:"A 300 mm diameter hole 600 mm deep is approximately:",o:["0.042 m³","0.42 m³","4.2 m³","0.0042 m³"],a:0,f:"3.14 × 0.15² × 0.6 ≈ 0.042 m³."},
+      {q:"13 bays with 3 rails each requires:",o:["39 rails","36 rails","42 rails","13 rails"],a:0,f:"13 × 3 = 39."},
+      {q:"Wider post spacing generally means:",o:["Fewer posts but potentially more rail deflection","More posts","Stronger fence","No difference"],a:0,f:"Fewer posts, but rails span further and may sag."},
+      {q:"Paling quantity per bay is based on:",o:["Bay width divided by paling width, allowing for overlap or gap","Post depth","Concrete volume","Run length only"],a:0,f:"Bay width and paling width with spacing allowance."},
+      {q:"The most common post-count error is:",o:["Forgetting the final end post","Ordering too much concrete","Using metres","Counting bays"],a:0,f:"Dividing length by spacing omits the last post."}
+    ]
+  },
+  {
+    id:"aircon-sizing", trade:"Air Conditioning & Heating", group:"Other", mins:20,
+    title:"System Sizing Basics",
+    blurb:"Calculating required cooling and heating capacity by room, and why sizing by floor area alone fails.",
+    lessons:[
+      {t:"Why floor area alone is not enough", b:`<p>A rule-of-thumb kW-per-square-metre figure gets you in the ballpark and no further. Two rooms of identical size can need very different capacity.</p><div class="eg">Factors that change the answer: ceiling height, window area and orientation, glazing type, insulation, occupancy, and appliance heat load.<br><br>A west-facing room with large single glazing carries a far higher cooling load than an equivalent south-facing insulated room.</div>`},
+      {t:"Volume, not just area", b:`<p>Conditioning air means conditioning volume. Raked or high ceilings increase the load well beyond what floor area suggests.</p><div class="eg">Room volume (m³) = floor area × ceiling height<br><br>A 30 m² room at 2.4 m is 72 m³; the same room with a 3.6 m raked ceiling is 108 m³ — 50% more air to condition.</div>`},
+      {t:"Worked example: living/dining split system", b:`<p>An open-plan living and dining space, 40 m², 2.7 m ceilings, large west-facing glazing.</p><div class="eg">1. Calculate volume: 40 × 2.7 = <b>108 m³</b><br>2. Start from a base capacity figure for that volume.<br>3. Add for west-facing glazing and its area.<br>4. Adjust for insulation quality and occupancy.<br>5. Select the nearest available unit capacity — undersizing means the unit runs constantly and never reaches setpoint; oversizing causes short cycling and poor humidity control.<br><br>Use the manufacturer's sizing tool or a full load calculation for anything beyond a straightforward room.</div>`}
+    ],
+    bank:[
+      {q:"Sizing a system on floor area alone is unreliable because:",o:["Areas are hard to measure","Glazing, orientation, insulation and ceiling height also drive load","Floor area is irrelevant","Units are sold by area"],a:1,f:"Multiple factors beyond area determine the load."},
+      {q:"Room volume is calculated as:",o:["Floor area × ceiling height","Floor area ÷ height","Perimeter × height","Area + height"],a:0,f:"Volume = area × height."},
+      {q:"A 30 m² room with a 3.6 m raked ceiling has a volume of:",o:["72 m³","108 m³","90 m³","30 m³"],a:1,f:"30 × 3.6 = 108 m³."},
+      {q:"Which orientation typically carries the highest cooling load in Australia?",o:["South-facing","West-facing","North-facing with eaves","Internal wall"],a:1,f:"West-facing glazing takes intense afternoon sun."},
+      {q:"An oversized unit typically causes:",o:["Better humidity control","Short cycling and poor humidity control","Lower running cost always","Longer run times"],a:1,f:"Oversized units cycle on and off too quickly."},
+      {q:"An undersized unit typically:",o:["Runs constantly without reaching setpoint","Cycles rapidly","Uses no power","Over-dehumidifies"],a:0,f:"It cannot meet the load, so it runs continuously."},
+      {q:"Raked ceilings affect sizing because:",o:["They reduce volume","They increase the volume of air to condition","They improve insulation","They have no effect"],a:1,f:"More volume means more air to condition."},
+      {q:"Single glazing versus double glazing means:",o:["Lower load","Higher load","Identical load","Load depends only on area"],a:1,f:"Single glazing transmits far more heat."},
+      {q:"For anything beyond a straightforward room you should use:",o:["A rule of thumb","The manufacturer's sizing tool or a full load calculation","The largest unit available","The cheapest unit"],a:1,f:"Complex spaces need a proper load calculation."},
+      {q:"Occupancy affects sizing because:",o:["People add heat load","People reduce volume","It changes the ceiling height","It doesn't"],a:0,f:"Occupants contribute sensible and latent heat."}
+    ]
+  },
+  {
+    id:"handyman-quoting", trade:"Handyman", group:"Other", mins:15,
+    title:"Quoting Multi-Task Jobs",
+    blurb:"Breaking a job list into time-per-task estimates, and the hidden costs that erode a quote.",
+    lessons:[
+      {t:"Price the list, not the day", b:`<p>Multi-task jobs go wrong when they're quoted as a rough day rate. Break the list into individual tasks, time each one, then total it.</p><div class="eg">Every task gets: estimated time + materials + any access or setup time.<br><br>A list of five "quick" jobs in five different rooms is not the same as five jobs in one room — setup and pack-down repeat.</div>`},
+      {t:"The costs that get forgotten", b:`<p>The labour estimate is usually the accurate part. What erodes the margin is everything around it.</p><div class="eg">Commonly missed: travel time, materials pickup, waste disposal, parking, ladder/access setup, and the time spent talking to the customer on site.<br><br>Add a contingency for unknowns behind walls or under floors — on older properties especially.</div>`},
+      {t:"Worked example: 5-task punch list", b:`<p>Five tasks across a home: re-hang a door, patch two walls, replace a tap washer, mount a TV, re-seal a shower.</p><div class="eg">1. Time each task individually.<br>2. Add setup/pack-down per location, not per job.<br>3. Add travel and a materials run.<br>4. Add waste disposal if applicable.<br>5. Apply a contingency percentage for the unknown items (wall patching and shower sealing often reveal more work).<br><br>Quote the total, and state clearly in writing what is excluded.</div>`}
+    ],
+    bank:[
+      {q:"Multi-task jobs are best quoted by:",o:["A rough day rate","Breaking the list into individual timed tasks","Guessing from the customer's budget","Charging per room"],a:1,f:"Task-by-task estimating is far more accurate."},
+      {q:"Setup and pack-down time should be counted:",o:["Once per job","Per location within the job","Never","Only for large jobs"],a:1,f:"Each separate work location repeats setup."},
+      {q:"Which is most commonly forgotten in a handyman quote?",o:["Labour time","Travel, materials pickup and waste disposal","The customer's name","Task order"],a:1,f:"Surrounding costs erode margin most often."},
+      {q:"A contingency allowance is most important on:",o:["New builds","Older properties with unknowns behind walls","Outdoor tasks only","Single-task jobs"],a:1,f:"Older properties hide surprises."},
+      {q:"Five tasks in five rooms versus five in one room means:",o:["Identical time","More time due to repeated setup","Less time","Fewer materials"],a:1,f:"Setup and pack-down repeat per location."},
+      {q:"Which two tasks most often reveal extra work?",o:["Wall patching and shower sealing","Tap washers and TV mounting","Door hanging only","None"],a:0,f:"Both commonly expose underlying damage."},
+      {q:"Exclusions should be:",o:["Assumed understood","Stated clearly in writing on the quote","Discussed only if asked","Left out"],a:1,f:"Written exclusions prevent disputes."},
+      {q:"Time spent talking with the customer on site is:",o:["Free","Real time that should be accounted for","Billed at double","Not applicable"],a:1,f:"It's genuine time on the job."},
+      {q:"A materials run should be:",o:["Absorbed silently","Included in the time estimate","Charged to the next job","Skipped"],a:1,f:"It consumes real working time."},
+      {q:"The main risk of day-rate quoting a punch list is:",o:["Overcharging always","Underestimating the true total time","It's illegal","Customers dislike it"],a:1,f:"Rough day rates routinely underestimate multi-task work."}
+    ]
+  },
+  {
+    id:"cleaning-scoping", trade:"Cleaning", group:"Other", mins:15,
+    title:"Job Scoping & Time Estimating",
+    blurb:"Estimating time and cost by property size and job type, plus safe chemical dilution ratios.",
+    lessons:[
+      {t:"Scope drives time, not square metres", b:`<p>Two properties of identical size can take wildly different times. What matters is the job type and its condition.</p><div class="eg">A regular maintenance clean of a 3-bedroom home might take a fraction of the time of an end-of-lease clean on the same property.<br><br>Always inspect or ask detailed condition questions before quoting a fixed price.</div>`},
+      {t:"Dilution ratios", b:`<p>Concentrates are mixed by ratio. Getting this wrong wastes product, damages surfaces, or leaves the job ineffective.</p><div class="eg">A 1:10 ratio means 1 part concentrate to 10 parts water.<br><br>For 5 L of solution at 1:10: divide 5 by 11 parts total → roughly <b>450 ml</b> concentrate to <b>4.55 L</b> water.<br><br>Always follow the manufacturer's safety data sheet — never mix products.</div>`},
+      {t:"Worked example: end-of-lease clean", b:`<p>A 3-bedroom, 2-bathroom property being vacated.</p><div class="eg">1. Break the property into zones: kitchen, bathrooms, bedrooms, living, windows, outdoor.<br>2. Estimate hours per zone based on condition, not just size.<br>3. Add oven, range hood and window tracks separately — these are the biggest time sinks in an end-of-lease clean.<br>4. Add travel, product and equipment cost.<br>5. Apply your hourly rate to the total, and state inclusions and exclusions in writing.</div>`}
+    ],
+    bank:[
+      {q:"Cleaning time is driven primarily by:",o:["Floor area alone","Job type and the property's condition","The suburb","Number of windows only"],a:1,f:"Scope and condition matter far more than size."},
+      {q:"A 1:10 dilution ratio means:",o:["1 part concentrate to 10 parts water","10 parts concentrate to 1 part water","1 litre per 10 m²","10% water"],a:0,f:"One part product to ten parts water."},
+      {q:"Before quoting a fixed price you should:",o:["Guess from the address","Inspect or ask detailed condition questions","Always quote hourly","Use the last job's price"],a:1,f:"Condition varies enormously between properties."},
+      {q:"Which is typically the biggest time sink in an end-of-lease clean?",o:["Dusting skirting","Oven, range hood and window tracks","Vacuuming","Emptying bins"],a:1,f:"These are detailed, slow, heavily inspected areas."},
+      {q:"Mixing two cleaning products together is:",o:["Recommended for strength","Dangerous — never do it","Required for tiles","Fine if diluted"],a:1,f:"Mixing can produce toxic gases."},
+      {q:"An end-of-lease clean compared to a maintenance clean generally takes:",o:["Less time","Substantially more time","The same time","Half the time"],a:1,f:"Far more detail and scrutiny involved."},
+      {q:"Scoping by zones helps because:",o:["It looks professional","It produces a more accurate total estimate","It's faster to write","Customers require it"],a:1,f:"Zone-by-zone estimating is more accurate than a single guess."},
+      {q:"The authoritative source for safe product handling is:",o:["The label colour","The manufacturer's safety data sheet","Another cleaner's advice","The customer"],a:1,f:"The SDS is the authoritative safety document."},
+      {q:"Inclusions and exclusions should be:",o:["Stated in writing","Left vague","Decided on the day","Assumed"],a:0,f:"Written scope prevents disputes over what was covered."},
+      {q:"Product and equipment cost should be:",o:["Absorbed","Included in the quote calculation","Billed separately later","Ignored"],a:1,f:"They are real costs of delivering the job."}
+    ]
+  },
+  {
+    id:"removals-volume", trade:"Removalists", group:"Other", mins:15,
+    title:"Volume & Crew Time Estimating",
+    blurb:"Estimating truck volume from home size and inventory, and calculating realistic crew hours.",
+    lessons:[
+      {t:"Estimating volume", b:`<p>Removal trucks are sized in cubic metres. Underestimating means a second trip; overestimating means paying for space you don't use.</p><div class="eg">Rough guide: a furnished bedroom contributes roughly 8–12 m³ of goods, though this varies hugely with how much the household owns.<br><br>Bulky, low-density items (mattresses, lounges, appliances) consume volume disproportionately to their weight.</div>`},
+      {t:"Access is the hidden variable", b:`<p>Two identical loads can take very different times depending entirely on access at each end.</p><div class="eg">Time multipliers: stairs versus lift, long carry distance from truck to door, narrow driveways, parking restrictions, and booking a lift in an apartment building.<br><br>Always ask about access at <b>both</b> addresses before quoting.</div>`},
+      {t:"Worked example: 3-bedroom local move", b:`<p>A furnished 3-bedroom home, ground floor, moving locally to a first-floor apartment with lift access.</p><div class="eg">1. Estimate volume from the room count and inventory.<br>2. Select truck size with headroom — a second trip costs far more than a slightly larger truck.<br>3. Estimate load time, travel time, and unload time separately.<br>4. Apply access multipliers for the first-floor destination and lift booking.<br>5. Multiply total hours by crew size and rate, and state clearly what is and isn't included (packing, materials, insurance).</div>`}
+    ],
+    bank:[
+      {q:"Removal trucks are sized in:",o:["Cubic metres","Kilograms only","Square metres","Linear metres"],a:0,f:"Volume in m³ is the standard measure."},
+      {q:"Which consumes volume disproportionately to weight?",o:["Boxes of books","Mattresses and lounges","Cutlery","Tools"],a:1,f:"Bulky low-density items eat volume."},
+      {q:"The most commonly underestimated variable is:",o:["Truck colour","Access at both addresses","Fuel cost","Crew names"],a:1,f:"Stairs, carry distance and parking change times dramatically."},
+      {q:"Underestimating volume typically results in:",o:["A cheaper job","A costly second trip","A faster move","Nothing"],a:1,f:"A second trip costs far more than extra truck capacity."},
+      {q:"You should ask about access at:",o:["The pickup address only","The destination only","Both addresses","Neither"],a:2,f:"Both ends affect load and unload times."},
+      {q:"Time should be estimated as:",o:["One lump figure","Load, travel and unload separately","Travel only","Per box"],a:1,f:"Separating the phases improves accuracy."},
+      {q:"A furnished bedroom contributes roughly:",o:["1–2 m³","8–12 m³","30–40 m³","0.5 m³"],a:1,f:"Around 8–12 m³ as a rough guide."},
+      {q:"Apartment moves often require:",o:["Nothing extra","A booked lift and allowance for carry distance","Smaller trucks always","Fewer crew"],a:1,f:"Lift booking and carry distance add real time."},
+      {q:"Total cost is calculated from:",o:["Volume only","Total hours × crew size × rate, plus extras","Distance only","Box count"],a:1,f:"Crew hours drive the labour cost."},
+      {q:"Packing, materials and insurance should be:",o:["Assumed included","Clearly stated as included or excluded","Never mentioned","Charged after the move"],a:1,f:"Ambiguity here causes disputes."}
+    ]
+  }
+
+];
+const GROUPS = [
+  {k:"all", label:"All trades"},
+  {k:"Electrical", label:"Electrical"},
+  {k:"Plumbing", label:"Plumbing"},
+  {k:"Carpentry", label:"Carpentry"},
+  {k:"Outdoor", label:"Outdoor & Roofing"},
+  {k:"Finishing", label:"Finishing & Fit-out"},
+  {k:"Other", label:"Other trades"}
+];
+const QUIZ_LEN = 8, PASS = 0.8;
+
+/* ============ STATE ============ */
+let progress = {};          // {courseId:{lessons:[], best:0, passed:false, attempts:0}}
+let route = {name:"hub", id:null};
+let activeFilter = "all";
+let quiz = null;
+
+function blank(){ return {lessons:[], best:0, passed:false, attempts:0}; }
+function prog(id){ if(!progress[id]) progress[id]=blank(); return progress[id]; }
+
+function loadLocal(){
+  try{ const raw = localStorage.getItem("su_refresher_progress");
+    if(raw) progress = JSON.parse(raw) || {};
+  }catch(e){ progress = {}; }
+}
+function saveLocal(){
+  try{ localStorage.setItem("su_refresher_progress", JSON.stringify(progress)); }catch(e){}
+}
+function persist(){ saveLocal(); renderBadgeCount(); }
+
+/* ============ HELPERS ============ */
+function esc(s){ const d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+function shuffle(a){ const r=a.slice(); for(let i=r.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [r[i],r[j]]=[r[j],r[i]]; } return r; }
+function earned(){ return COURSES.filter(c=>prog(c.id).passed).length; }
+function renderBadgeCount(){
+  const n = earned();
+  document.getElementById("badgeCount").textContent = n ? `${n} refresher badge${n>1?"s":""} earned` : "";
+}
+
+/* ============ HUB ============ */
+function renderHub(){
+  document.getElementById("backBtn").hidden = true;
+  const chips = GROUPS.map(g=>
+    `<button class="chip" data-f="${g.k}" aria-pressed="${activeFilter===g.k}">${esc(g.label)}</button>`).join("");
+
+  const cards = COURSES.filter(c=>activeFilter==="all"||c.group===activeFilter).map(c=>{
+    const p = prog(c.id);
+    const done = p.passed;
+    return `<button class="card" data-course="${c.id}">
+      <div class="card-top">
+        <span class="pill pill-trade">${esc(c.trade)}</span>
+        <span class="pill ${done?"pill-done":"pill-free"}">${done?"Completed":"Free"}</span>
+      </div>
+      <h3>${esc(c.title)}</h3>
+      <p>${esc(c.blurb)}</p>
+      <div class="card-meta">
+        <span><b>${c.mins} min</b> · ${c.lessons.length} lessons</span>
+        <span class="mini">${done?`Badge earned · ${p.best}%`:"Refresher badge"}</span>
+      </div>
+    </button>`;
+  }).join("");
+
+  const soon = activeFilter==="all" ? `<div class="soon"><h3>30 more trades coming soon</h3><p>Gas, concreting, plastering, pest control &amp; more — same free, practical format.</p></div>` : "";
+
+  document.getElementById("app").innerHTML = `
+  <header class="hero"><div class="container">
+    <h1>Free skills refreshers for tradies</h1>
+    <p class="sub">Quick, practical calculation refreshers built for the job — not red tape. Pass one to add a Skills Refresher badge to your profile.</p>
+    <div class="notice">
+      <div class="notice-ic" aria-hidden="true">i</div>
+      <p><b>Not accredited CPD.</b>These are free skills refreshers only — they don't count toward licence renewal or CPD requirements, and don't replace your trade qualification or licence conditions. Always refer to current AS/NZS standards and your state regulator.</p>
+    </div>
+    <div class="filters" id="filters">${chips}</div>
+  </div></header>
+  <section class="hub-body"><div class="container">
+    <div class="grid">${cards}${soon}</div>
+  </div></section>`;
+
+  document.getElementById("filters").addEventListener("click", e=>{
+    const b = e.target.closest(".chip"); if(!b) return;
+    activeFilter = b.dataset.f; renderHub();
+  });
+  document.querySelectorAll("[data-course]").forEach(el=>{
+    el.addEventListener("click", ()=>{ route={name:"course", id:el.dataset.course}; render(); window.scrollTo(0,0); });
+  });
+}
+
+/* ============ COURSE ============ */
+function renderCourse(){
+  const c = COURSES.find(x=>x.id===route.id);
+  if(!c){ route={name:"hub"}; return renderHub(); }
+  document.getElementById("backBtn").hidden = false;
+  const p = prog(c.id);
+
+  const lessons = c.lessons.map((l,i)=>`
+    <div class="lesson" data-open="${i===0}" data-i="${i}">
+      <button class="lesson-head">
+        <div><div class="lesson-n">LESSON ${i+1}</div><div class="lesson-t">${esc(l.t)}</div></div>
+        <div class="chev" aria-hidden="true">▾</div>
+      </button>
+      <div class="lesson-body">${l.b}</div>
+    </div>`).join("");
+
+  document.getElementById("app").innerHTML = `
+  <header class="c-hero"><div class="container">
+    <div>
+      <span class="pill pill-trade">${esc(c.trade)}</span>
+      <span class="pill ${p.passed?"pill-done":"pill-free"}">${p.passed?"Completed":"Free for members"}</span>
+    </div>
+    <h1>${esc(c.title)}</h1>
+    <div class="c-meta">
+      <span><b>${c.mins} min</b> · self-paced</span>
+      <span><b>${c.lessons.length} lessons</b> + quiz</span>
+      <span><b>${QUIZ_LEN} questions</b> from a ${c.bank.length}-question bank · 80% pass, unlimited retakes</span>
+    </div>
+    <div class="notice" style="margin-top:18px;max-width:560px;">
+      <div class="notice-ic" aria-hidden="true">i</div>
+      <p><b>Skills Refresher — not a licence check</b>This is different from your "Verified" badge (ABN, licence &amp; insurance). Completing this shows you've refreshed a core calculation — it isn't CPD-accredited and doesn't replace your formal training or the current standards.</p>
+    </div>
+  </div></header>
+  <section class="container c-body">
+    <div>${lessons}</div>
+    <aside class="side">
+      <div class="panel">
+        <h4>Your progress</h4>
+        <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+        <div class="bar-txt" id="barTxt"></div>
+      </div>
+      <div id="quizMount"></div>
+    </aside>
+  </section>`;
+
+  document.querySelectorAll(".lesson-head").forEach(h=>{
+    h.addEventListener("click", ()=>{
+      const el = h.parentElement, i = Number(el.dataset.i);
+      const open = el.dataset.open === "true";
+      el.dataset.open = open ? "false" : "true";
+      if(!open){
+        const pp = prog(c.id);
+        if(!pp.lessons.includes(i)){ pp.lessons.push(i); persist(); updateBar(c); }
+      }
     });
   });
-});
+  const pp = prog(c.id);
+  if(!pp.lessons.includes(0)){ pp.lessons.push(0); persist(); }
+  updateBar(c);
+  mountQuizIntro(c);
+}
+
+function updateBar(c){
+  const p = prog(c.id), total = c.lessons.length;
+  const seen = p.lessons.filter(i=>i<total).length;
+  const fill = document.getElementById("barFill");
+  const txt = document.getElementById("barTxt");
+  if(!fill) return;
+  fill.style.width = Math.round((seen/total)*100) + "%";
+  txt.textContent = `${seen} of ${total} lessons viewed` + (p.passed?` · quiz passed (${p.best}%)`:"");
+}
+
+/* ============ QUIZ ============ */
+function mountQuizIntro(c){
+  const p = prog(c.id);
+  const mount = document.getElementById("quizMount");
+  mount.innerHTML = `<div class="quiz">
+    <h3>${p.passed?"Quiz passed":"Final quiz"}</h3>
+    <p class="lead">${QUIZ_LEN} questions drawn at random from ${c.bank.length}. Pass mark 80%. Unlimited retakes.</p>
+    ${p.attempts?`<p class="lead">Best score: <b style="color:var(--amber)">${p.best}%</b> · ${p.attempts} attempt${p.attempts>1?"s":""}</p>`:""}
+    <button class="btn btn-amber" style="width:100%" id="startQuiz">${p.attempts?"Retake quiz":"Start quiz"}</button>
+  </div>
+  ${p.passed?certHTML(c):""}`;
+  document.getElementById("startQuiz").addEventListener("click", ()=>startQuiz(c));
+}
+
+function certHTML(c){
+  return `<div class="cert" style="margin-top:13px;">
+    <div class="cert-badge" aria-hidden="true">✓</div>
+    <h4>Skills Refresher Badge</h4>
+    <p>${esc(c.title)}<br><br>Confirms completion of an informal skills refresher only. Not an accredited qualification, not a licence, and not CPD-recognised by any regulator.</p>
+  </div>`;
+}
+
+function startQuiz(c){
+  quiz = { course:c, qs: shuffle(c.bank).slice(0,Math.min(QUIZ_LEN,c.bank.length)), i:0, score:0, answered:false };
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const {course,qs,i,score} = quiz;
+  const q = qs[i];
+  const opts = q.o.map((o,idx)=>`<button class="opt" data-idx="${idx}">${esc(o)}</button>`).join("");
+  document.getElementById("quizMount").innerHTML = `<div class="quiz">
+    <div class="qcount">QUESTION ${i+1} OF ${qs.length} · SCORE ${score}</div>
+    <div class="qtext">${esc(q.q)}</div>
+    <div id="opts">${opts}</div>
+    <div class="fb" id="fb"></div>
+    <div class="quiz-foot"><button class="btn btn-amber" id="nextQ" style="display:none">${i+1<qs.length?"Next question":"See result"}</button></div>
+  </div>`;
+  document.getElementById("opts").addEventListener("click", e=>{
+    const b = e.target.closest(".opt"); if(!b || quiz.answered) return;
+    quiz.answered = true;
+    const chosen = Number(b.dataset.idx);
+    const correct = chosen === q.a;
+    if(correct) quiz.score++;
+    document.querySelectorAll(".opt").forEach((o,idx)=>{
+      o.disabled = true;
+      if(idx===q.a) o.dataset.state="correct";
+      else if(idx===chosen) o.dataset.state="wrong";
+    });
+    document.getElementById("fb").textContent = (correct?"Correct. ":"Not quite. ") + q.f;
+    document.getElementById("nextQ").style.display = "block";
+  });
+  document.getElementById("nextQ").addEventListener("click", ()=>{
+    if(quiz.i+1 < qs.length){ quiz.i++; quiz.answered=false; renderQuestion(); }
+    else finishQuiz();
+  });
+}
+
+function finishQuiz(){
+  const c = quiz.course;
+  const pct = Math.round((quiz.score/quiz.qs.length)*100);
+  const passed = (quiz.score/quiz.qs.length) >= PASS;
+  const p = prog(c.id);
+  p.attempts++;
+  if(pct > p.best) p.best = pct;
+  if(passed) p.passed = true;
+  persist(); updateBar(c);
+
+  document.getElementById("quizMount").innerHTML = `<div class="quiz">
+    <div class="result-big" style="color:${passed?"var(--amber)":"#fff"}">${pct}%</div>
+    <div class="result-sub">${quiz.score} of ${quiz.qs.length} correct — ${passed?"passed":"not passed (80% needed)"}</div>
+    <div class="quiz-foot">
+      <button class="btn btn-amber" id="againQ">${passed?"Retake":"Try again"}</button>
+      <button class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.3)" id="doneQ">Back</button>
+    </div>
+  </div>
+  ${passed?certHTML(c):""}`;
+  document.getElementById("againQ").addEventListener("click", ()=>startQuiz(c));
+  document.getElementById("doneQ").addEventListener("click", ()=>mountQuizIntro(c));
+}
+
+/* ============ ROUTER ============ */
+function render(){ route.name==="course" ? renderCourse() : renderHub(); renderBadgeCount(); }
+document.getElementById("homeBtn").addEventListener("click", ()=>{ route={name:"hub"}; render(); window.scrollTo(0,0); });
+document.getElementById("backBtn").addEventListener("click", ()=>{ route={name:"hub"}; render(); window.scrollTo(0,0); });
+
+loadLocal();
+render();
+
+/* Progress persists per browser via localStorage. */
 </script>
 </body>
 </html>
